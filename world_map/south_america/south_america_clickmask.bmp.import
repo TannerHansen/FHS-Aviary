@@ -1,0 +1,15 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+path="res://.import/south_america_clickmask.bmp-992e5b45fde9d698cb1fc2cc20a9c63d.res"
+
+[deps]
+
+source_file="res://world_map/south_america/south_america_clickmask.bmp"
+dest_files=[ "res://.import/south_america_clickmask.bmp-992e5b45fde9d698cb1fc2cc20a9c63d.res" ]
+
+[params]
+
+create_from=0
+threshold=0.5

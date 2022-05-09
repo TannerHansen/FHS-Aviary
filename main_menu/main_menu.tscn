@@ -1,0 +1,120 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://common/48pt_wingrace_regular.tres" type="DynamicFont" id=1]
+[ext_resource path="res://main_menu/main_menu.gd" type="Script" id=2]
+[ext_resource path="res://common/wingrace_demo_regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://common/teal_and_white_phoenix_with_sign.png" type="Texture" id=4]
+
+[sub_resource type="DynamicFont" id=3]
+size = 108
+font_data = ExtResource( 3 )
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 277.0, 960.0, 152.0 ],
+"_edit_lock_": true
+}
+buttons = [ NodePath("SafeMargin/VBoxContainer/Buttons/BirdButton"), NodePath("SafeMargin/VBoxContainer/Buttons/SponsorButton"), NodePath("SafeMargin/VBoxContainer/Buttons/ContributorButton") ]
+
+[node name="SafeMargin" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 277.0
+margin_bottom = -64.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SafeMargin"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+
+[node name="Control" type="Control" parent="SafeMargin/VBoxContainer"]
+margin_right = 748.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 0, 100 )
+
+[node name="FarmingtonLabel" type="Label" parent="SafeMargin/VBoxContainer/Control"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -350.0
+margin_right = 350.0
+margin_bottom = 111.0
+custom_fonts/font = SubResource( 3 )
+text = "Farmington"
+align = 1
+
+[node name="AviaryLabel" type="Label" parent="SafeMargin/VBoxContainer/Control"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -350.0
+margin_top = 82.0
+margin_right = 350.0
+margin_bottom = 132.0
+custom_fonts/font = ExtResource( 1 )
+text = "Aviary"
+align = 1
+
+[node name="Pheonix" type="TextureRect" parent="SafeMargin/VBoxContainer"]
+margin_top = 104.0
+margin_right = 748.0
+margin_bottom = 514.0
+size_flags_vertical = 3
+texture = ExtResource( 4 )
+stretch_mode = 6
+
+[node name="Buttons" type="Control" parent="SafeMargin/VBoxContainer"]
+margin_top = 518.0
+margin_right = 748.0
+margin_bottom = 663.0
+rect_min_size = Vector2( 0, 145 )
+
+[node name="BirdButton" type="Button" parent="SafeMargin/VBoxContainer/Buttons"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -192.5
+margin_top = -140.0
+margin_right = -57.5
+margin_bottom = -84.0
+custom_fonts/font = ExtResource( 1 )
+text = "Birds"
+
+[node name="SponsorButton" type="Button" parent="SafeMargin/VBoxContainer/Buttons"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -39.5
+margin_top = -140.0
+margin_right = 190.5
+margin_bottom = -84.0
+custom_fonts/font = ExtResource( 1 )
+text = "Sponsors"
+
+[node name="ContributorButton" type="Button" parent="SafeMargin/VBoxContainer/Buttons"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -193.0
+margin_top = -68.0
+margin_right = 192.0
+margin_bottom = -5.0
+custom_fonts/font = ExtResource( 1 )
+text = "Contributors"
+
+[connection signal="pressed" from="SafeMargin/VBoxContainer/Buttons/BirdButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="SafeMargin/VBoxContainer/Buttons/BirdButton" to="." method="_on_BirdButton_pressed"]
+[connection signal="pressed" from="SafeMargin/VBoxContainer/Buttons/SponsorButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="SafeMargin/VBoxContainer/Buttons/SponsorButton" to="." method="_on_SponsorButton_pressed"]
+[connection signal="pressed" from="SafeMargin/VBoxContainer/Buttons/ContributorButton" to="." method="_on_ContributorButton_pressed"]
+[connection signal="pressed" from="SafeMargin/VBoxContainer/Buttons/ContributorButton" to="." method="_on_button_pressed"]

@@ -1,0 +1,15 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+path="res://.import/africa_clickmask.bmp-9f11ea3a54b59bb4da235325dff670db.res"
+
+[deps]
+
+source_file="res://world_map/africa/africa_clickmask.bmp"
+dest_files=[ "res://.import/africa_clickmask.bmp-9f11ea3a54b59bb4da235325dff670db.res" ]
+
+[params]
+
+create_from=0
+threshold=0.5

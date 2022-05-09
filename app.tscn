@@ -1,0 +1,205 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://main_menu/purple_feather_texture.jpg" type="Texture" id=1]
+[ext_resource path="res://main_menu/orange_triangle_up.png" type="Texture" id=2]
+[ext_resource path="res://main_menu/blue_wedge.png" type="Texture" id=3]
+[ext_resource path="res://main_menu/orange_triangle_down.png" type="Texture" id=4]
+[ext_resource path="res://main_menu/feather_texture.png" type="Texture" id=5]
+[ext_resource path="res://main_menu/main_menu.tscn" type="PackedScene" id=6]
+[ext_resource path="res://app.gd" type="Script" id=9]
+[ext_resource path="res://main_menu/feather_texture_inverted.png" type="Texture" id=11]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform sampler2D feather_texture;
+uniform float scroll_speed: hint_range(-0.15, 0.15) = 0.03;
+uniform float mix_percentage: hint_range(0, 1) = 0.9;
+uniform float texture_pixel_height: hint_range(0, 1) = 1500.0;
+
+void fragment() {
+	COLOR = texture(TEXTURE, UV);
+	float scale = (SCREEN_PIXEL_SIZE.y / SCREEN_PIXEL_SIZE.x)*4.;
+//	float y = (1./ SCREEN_PIXEL_SIZE.y) / 150.;
+	vec4 ft = texture(
+		feather_texture,
+		vec2(
+			mod(TIME*scroll_speed + UV.x*scale/2., 1.),
+			mod(UV.y/2., 1.)
+		)
+	);
+	COLOR.rgb = mix(ft.rgb, COLOR.rgb, mix_percentage);
+	
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/scroll_speed = 0.03
+shader_param/mix_percentage = 0.9
+shader_param/texture_pixel_height = 1500.0
+shader_param/feather_texture = ExtResource( 1 )
+
+[sub_resource type="Animation" id=9]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("FeatherTransition:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -441 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Menu:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "transition"
+tracks/0/type = "value"
+tracks/0/path = NodePath("FeatherTransition:rect_position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 2.37842, 1.51572 ),
+"update": 0,
+"values": [ Vector2( 0, -441 ), Vector2( 0, 1090 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Menu:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "emit_adding_next_menu"
+} ]
+}
+
+[sub_resource type="Shader" id=7]
+code = "shader_type canvas_item;
+
+uniform vec4 remove_color: hint_color;
+
+// 3757a3
+
+void fragment() {
+	COLOR = texture(TEXTURE, UV);
+	if (COLOR.b >= remove_color.b-.05 && COLOR.b <= remove_color.b+.05) {
+		COLOR.a = 0.;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = SubResource( 7 )
+shader_param/remove_color = Color( 0.215686, 0.341176, 0.639216, 1 )
+
+[node name="App" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 586, 822 )
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 152.0, 277.0, 960.0 ]
+}
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0117647, 0.666667, 0.839216, 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+modulate = Color( 1, 1, 1, 0.0862745 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 11 )
+expand = true
+stretch_mode = 7
+
+[node name="OrangeTriangleDown" type="TextureRect" parent="."]
+anchor_right = 1.0
+margin_top = 144.0
+margin_bottom = 277.0
+texture = ExtResource( 4 )
+expand = true
+
+[node name="OrangeTriangleUp" type="TextureRect" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -64.0
+texture = ExtResource( 2 )
+expand = true
+
+[node name="SponsorBanner" type="TextureRect" parent="."]
+material = SubResource( 2 )
+anchor_right = 1.0
+margin_bottom = 233.0
+texture = ExtResource( 3 )
+expand = true
+
+[node name="SponsorScroll" type="Control" parent="SponsorBanner"]
+anchor_right = 1.0
+anchor_bottom = 0.65
+margin_top = 20.0
+margin_bottom = -20.0
+
+[node name="Transition" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 9 )
+anims/transition = SubResource( 6 )
+
+[node name="FeatherTransition" type="TextureRect" parent="."]
+material = SubResource( 8 )
+anchor_right = 1.0
+margin_top = -441.0
+margin_right = 787.0
+margin_bottom = -83.0
+size_flags_horizontal = 0
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 7
+
+[node name="Menu" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true,
+"_editor_description_": "Only one node in here at a time PLEASE!"
+}
+
+[node name="MainMenu" parent="Menu" instance=ExtResource( 6 )]

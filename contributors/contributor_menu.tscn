@@ -1,0 +1,78 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://main_menu/orange_triangle_down.png" type="Texture" id=1]
+[ext_resource path="res://main_menu/orange_triangle_up.png" type="Texture" id=2]
+[ext_resource path="res://main_menu/blue_wedge.png" type="Texture" id=4]
+[ext_resource path="res://main_menu/feather_texture_inverted.png" type="Texture" id=5]
+[ext_resource path="res://contributors/contributor_menu.gd" type="Script" id=6]
+
+[node name="ContributorMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 277.0, 960.0, 152.0 ],
+"_edit_lock_": true
+}
+buttons = [ NodePath("SafeMargin/BackButton") ]
+
+[node name="Helper" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Background" type="ColorRect" parent="Helper"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0117647, 0.666667, 0.839216, 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="TextureRect" type="TextureRect" parent="Helper/Background"]
+modulate = Color( 1, 1, 1, 0.0862745 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 7
+
+[node name="OrangeTriangleDown" type="TextureRect" parent="Helper"]
+anchor_right = 1.0
+margin_top = 144.0
+margin_bottom = 277.0
+texture = ExtResource( 1 )
+expand = true
+
+[node name="SponsorBanner" type="TextureRect" parent="Helper"]
+anchor_right = 1.0
+margin_bottom = 233.0
+texture = ExtResource( 4 )
+expand = true
+
+[node name="OrangeTriangleUp" type="TextureRect" parent="Helper"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -64.0
+texture = ExtResource( 2 )
+expand = true
+
+[node name="SafeMargin" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 277.0
+margin_bottom = -64.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BackButton" type="Button" parent="SafeMargin"]
+margin_left = 11.0
+margin_top = -65.0
+margin_right = 127.0
+margin_bottom = -9.0
+text = "Back"
+
+[connection signal="pressed" from="SafeMargin/BackButton" to="." method="_on_BackButton_pressed"]

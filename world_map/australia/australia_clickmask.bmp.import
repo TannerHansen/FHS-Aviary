@@ -1,0 +1,15 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+path="res://.import/australia_clickmask.bmp-2679ef8ccd77cdff5d949c8b75e043d7.res"
+
+[deps]
+
+source_file="res://world_map/australia/australia_clickmask.bmp"
+dest_files=[ "res://.import/australia_clickmask.bmp-2679ef8ccd77cdff5d949c8b75e043d7.res" ]
+
+[params]
+
+create_from=0
+threshold=0.5

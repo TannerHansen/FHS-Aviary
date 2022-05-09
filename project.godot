@@ -1,0 +1,47 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Control",
+"class": "BaseMenu",
+"language": "GDScript",
+"path": "res://base_menu.gd"
+} ]
+_global_script_class_icons={
+"BaseMenu": ""
+}
+
+[application]
+
+config/name="Bird Up!"
+run/main_scene="res://app.tscn"
+boot_splash/image="res://main_menu/feather_texture_inverted.png"
+config/icon="res://icon.png"
+
+[autoload]
+
+EventBus="*res://event_bus.gd"
+
+[display]
+
+window/size/width=768
+window/size/height=1024
+
+[gui]
+
+theme/custom_font="res://common/48pt_wingrace_regular.tres"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
