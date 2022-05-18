@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=7]
+code = "shader_type canvas_item;
+
+uniform vec4 remove_color: hint_color;
+
+// 3757a3
+
+void fragment() {
+	COLOR = texture(TEXTURE, UV);
+	if (COLOR.b >= remove_color.b-.05 && COLOR.b <= remove_color.b+.05) {
+		COLOR.a = 0.;
+	}
+}"
+
+[resource]
+shader = SubResource( 7 )
+shader_param/remove_color = Color( 0.215686, 0.341176, 0.639216, 1 )

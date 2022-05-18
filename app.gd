@@ -12,6 +12,7 @@ export var menus := {
 	"sponsors": preload("res://sponsors/sponsor_menu.tscn"),
 	"contributors": preload("res://contributors/contributor_menu.tscn"),
 }
+var menu_path := []
 
 # Contains scenes under res://birds
 # ignores any scenes with "template" in the name
@@ -31,16 +32,26 @@ func _ready() -> void:
 	# This is to signal the menu (if any) under $Menu on startup
 	# otherwise, buttons might be disabled permanently
 	EventBus.emit_transitioned()
+	
+	menu_path.push_back(menus[menu])
 
 
 func transition(to: String) -> void:
-	assert(to in menus, "The scene you requested to transition to does not exist!")
+	assert(to in menus or to == "back", "The scene you requested to transition to does not exist!")
 	$Transition.play("transition")
 	
 	yield(self, "adding_next_menu")
 	$Menu.get_child(0).queue_free()
-	var new_menu: Control = menus[to].instance()
-	$Menu.add_child(new_menu)
+	if to == "back":
+		menu_path.pop_back()
+		var new_menu: Control = menu_path.back().instance()
+		$Menu.add_child(new_menu)
+	else:
+		var new_menu: Control = menus[to].instance()
+		$Menu.add_child(new_menu)
+		menu_path.push_back(menus[to])
+	
+	print(menu_path)
 	
 	yield($Transition, "animation_finished")
 	EventBus.emit_transitioned()
