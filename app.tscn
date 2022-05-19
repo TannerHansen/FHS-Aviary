@@ -10,7 +10,7 @@
 [ext_resource path="res://main_menu/bird_background.png" type="Texture" id=8]
 [ext_resource path="res://app.gd" type="Script" id=9]
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id=10]
 code = "shader_type canvas_item;
 
 uniform sampler2D feather_texture;
@@ -34,7 +34,7 @@ void fragment() {
 }"
 
 [sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
+shader = SubResource( 10 )
 shader_param/scroll_speed = 0.03
 shader_param/mix_percentage = 0.9
 shader_param/texture_pixel_height = 1500.0
@@ -65,6 +65,18 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("FeatherTransition:rect_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1920, 1080 ) ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -107,6 +119,18 @@ tracks/2/keys = {
 "args": [  ],
 "method": "emit_adding_next_menu"
 } ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("FeatherTransition:rect_size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1920, 1080 ) ]
 }
 
 [node name="App" type="Control"]

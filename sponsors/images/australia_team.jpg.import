@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/gail_shelley.jpg-09c34a541c509bfbe5de3945a12bee07.stex"
+path="res://.import/australia_team.jpg-0102b71e78b5598a6be7f1b1f1113d02.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sponsors/images/gail_shelley.jpg"
-dest_files=[ "res://.import/gail_shelley.jpg-09c34a541c509bfbe5de3945a12bee07.stex" ]
+source_file="res://sponsors/images/australia_team.jpg"
+dest_files=[ "res://.import/australia_team.jpg-0102b71e78b5598a6be7f1b1f1113d02.stex" ]
 
 [params]
 

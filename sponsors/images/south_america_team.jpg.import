@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/gail_shelley.jpg-09c34a541c509bfbe5de3945a12bee07.stex"
+path="res://.import/south_america_team.jpg-ade9c0265aca7df2e115ce74e249a848.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sponsors/images/gail_shelley.jpg"
-dest_files=[ "res://.import/gail_shelley.jpg-09c34a541c509bfbe5de3945a12bee07.stex" ]
+source_file="res://sponsors/images/south_america_team.jpg"
+dest_files=[ "res://.import/south_america_team.jpg-ade9c0265aca7df2e115ce74e249a848.stex" ]
 
 [params]
 

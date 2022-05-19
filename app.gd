@@ -34,6 +34,16 @@ func _ready() -> void:
 	EventBus.emit_transitioned()
 	
 	menu_path.push_back(menus[menu])
+	
+	# Rotate to fix the dumb iPad issue with the TV	
+	get_tree().set_screen_stretch(
+		SceneTree.STRETCH_MODE_VIEWPORT,
+		SceneTree.STRETCH_ASPECT_KEEP,
+		Vector2(2048, 1536)
+	)
+	self.rect_size = Vector2(1536, 2048)
+	self.rect_rotation = -90
+	self.rect_position.y = 1536
 
 
 func transition(to: String) -> void:
