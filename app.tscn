@@ -164,6 +164,7 @@ anchor_bottom = 0.652
 margin_top = 10.0
 margin_bottom = -9.056
 script = ExtResource( 7 )
+spacing = 100.0
 
 [node name="Menu" type="Control" parent="."]
 anchor_right = 1.0

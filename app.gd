@@ -113,3 +113,4 @@ func populate_bird_menus_dict():
 			)
 		
 		continent_directory.list_dir_end()
+#	OS.alert("Bird menus: " + str(bird_menus.values()))

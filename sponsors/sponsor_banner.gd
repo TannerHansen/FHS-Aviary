@@ -8,23 +8,44 @@ var sponsor_textures := []
 var sponsor_index := 0
 
 func _init() -> void:
+#	OS.alert(str(dir_contents("res://sponsors/images/")))
 	# Load sponsor textures
 	var sponsor_directory := Directory.new()
 	if sponsor_directory.open(self.sponsor_path) == OK:
 		sponsor_directory.list_dir_begin(true)
 		while true:
-			var file_name = sponsor_directory.get_next()
+			var file_name := sponsor_directory.get_next()
 			# File validation checks
 			if file_name == "":
 				break
 			if sponsor_directory.current_is_dir() \
-				or file_name.ends_with(".import"):
+				or not file_name.ends_with(".import"):
 				continue
+			file_name = file_name.trim_suffix(".import")
 			var image = load(self.sponsor_path + "/" + file_name)
 			if not image is Texture:
 				continue
 			
 			self.sponsor_textures.append(image)
+#	OS.alert("Sponsor textures length: " + str(sponsor_textures.size()))
+
+
+func dir_contents(path):
+	var output := ""
+	var dir = Directory.new()
+	if dir.open(path) == OK:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if dir.current_is_dir():
+				output += "Found directory: " + file_name + "\n"
+			else:
+				output += "Found file: " + file_name + "\n"
+			file_name = dir.get_next()
+	else:
+		output += "An error occurred when trying to access the path.\n"
+	return output
+
 
 
 func _ready() -> void:
@@ -42,6 +63,7 @@ func _ready() -> void:
 		
 		add_sponsor(next_image_x_position)
 		next_image_x_position += get_child(get_child_count()-1).rect_size.x + spacing
+	
 
 
 func _process(delta: float) -> void:
