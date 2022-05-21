@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://common/square_grid_container.gd" type="Script" id=1]
+[ext_resource path="res://bird_selection/bird_selection.gd" type="Script" id=2]
+
+[node name="BirdSelection" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="SafeMargin" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 547.0
+margin_bottom = -185.0
+
+[node name="GridContainer" type="GridContainer" parent="SafeMargin"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -507.0
+margin_top = -507.0
+margin_right = 507.0
+margin_bottom = 507.0
+script = ExtResource( 1 )
+
+[node name="BackButton" type="Button" parent="SafeMargin"]
+margin_left = 40.0
+margin_top = -159.0
+margin_right = 351.0
+margin_bottom = -11.0
+text = "Back"
+
+[connection signal="pressed" from="SafeMargin/BackButton" to="." method="_on_BackButton_pressed"]

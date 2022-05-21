@@ -30,21 +30,7 @@ func _init() -> void:
 #	OS.alert("Sponsor textures length: " + str(sponsor_textures.size()))
 
 
-func dir_contents(path):
-	var output := ""
-	var dir = Directory.new()
-	if dir.open(path) == OK:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		while file_name != "":
-			if dir.current_is_dir():
-				output += "Found directory: " + file_name + "\n"
-			else:
-				output += "Found file: " + file_name + "\n"
-			file_name = dir.get_next()
-	else:
-		output += "An error occurred when trying to access the path.\n"
-	return output
+
 
 
 

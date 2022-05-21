@@ -8,3 +8,8 @@ func emit_transition(to: String) -> void:
 signal transitioned()
 func emit_transitioned() -> void:
 	emit_signal("transitioned")
+
+
+signal send_bird_info(icons, scenes)
+func emit_send_bird_info(icons: Dictionary, scenes: Dictionary) -> void:
+	emit_signal("send_bird_info", icons, scenes)

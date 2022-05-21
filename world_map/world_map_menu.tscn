@@ -18,7 +18,7 @@
 [ext_resource path="res://sponsors/sponsor_banner.gd" type="Script" id=16]
 [ext_resource path="res://main_menu/bird_background.png" type="Texture" id=17]
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id=3]
 code = "shader_type canvas_item;
 
 uniform sampler2D feather_texture;
@@ -42,7 +42,7 @@ void fragment() {
 }"
 
 [sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
+shader = SubResource( 3 )
 shader_param/scroll_speed = 0.03
 shader_param/mix_percentage = 0.9
 shader_param/texture_pixel_height = 1500.0
@@ -59,6 +59,7 @@ __meta__ = {
 buttons = [ NodePath("SafeMargin/BackButton"), NodePath("SafeMargin/Continents/AfricaButton"), NodePath("SafeMargin/Continents/AustraliaButton"), NodePath("SafeMargin/Continents/SouthAmericaButton") ]
 
 [node name="Helper" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -182,3 +183,9 @@ expand = true
 stretch_mode = 5
 
 [connection signal="pressed" from="SafeMargin/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="SafeMargin/Continents/AfricaButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="SafeMargin/Continents/AfricaButton" to="." method="_on_AfricaButton_pressed"]
+[connection signal="pressed" from="SafeMargin/Continents/AustraliaButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="SafeMargin/Continents/AustraliaButton" to="." method="_on_AustraliaButton_pressed"]
+[connection signal="pressed" from="SafeMargin/Continents/SouthAmericaButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="SafeMargin/Continents/SouthAmericaButton" to="." method="_on_SouthAmericaButton_pressed"]

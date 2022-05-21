@@ -1,5 +1,6 @@
 extends Control
 # Keeps track of which menu path we're in
+# Need to refactor this... its atrocious in here
 
 signal adding_next_menu()
 func emit_adding_next_menu():
@@ -11,6 +12,9 @@ export var menus := {
 	"world_map": preload("res://world_map/world_map_menu.tscn"),
 	"sponsors": preload("res://sponsors/sponsor_menu.tscn"),
 	"contributors": preload("res://contributors/contributor_menu.tscn"),
+	"africa": preload("res://bird_selection/bird_selection.tscn"),
+	"australia": preload("res://bird_selection/bird_selection.tscn"),
+	"south_america": preload("res://bird_selection/bird_selection.tscn"),
 }
 var menu_path := []
 
@@ -21,10 +25,11 @@ var menu_path := []
 # 		. . .
 # 	}, {. . .}
 var bird_menus := {}
-
+# maps bird name to associated icon.png Texture
+var bird_icons := {}
 
 func _init() -> void:
-	populate_bird_menus_dict()
+	populate_bird_menus_and_icons_dicts()
 
 
 func _ready() -> void:
@@ -35,31 +40,57 @@ func _ready() -> void:
 	
 	menu_path.push_back(menus[menu])
 	
-	# Rotate to fix the dumb iPad issue with the TV	
-	get_tree().set_screen_stretch(
-		SceneTree.STRETCH_MODE_VIEWPORT,
-		SceneTree.STRETCH_ASPECT_KEEP,
-		Vector2(2048, 1536)
-	)
-	self.rect_size = Vector2(1536, 2048)
-	self.rect_rotation = -90
-	self.rect_position.y = 1536
+	# Rotate to fix the dumb iPad issue with the TV
+	if OS.has_feature("standalone"):
+		get_tree().set_screen_stretch(
+			SceneTree.STRETCH_MODE_VIEWPORT,
+			SceneTree.STRETCH_ASPECT_KEEP,
+			Vector2(2048, 1536)
+		)
+		self.rect_size = Vector2(1536, 2048)
+		self.rect_rotation = -90
+		self.rect_position.y = 1536
 
 
 func transition(to: String) -> void:
-	assert(to in menus or to == "back", "The scene you requested to transition to does not exist!")
-	$Transition.play("transition")
+	var going_back := false
+	var bird_selection_menu := false
+	var menu_resource: PackedScene
 	
-	yield(self, "adding_next_menu")
-	$Menu.get_child(0).queue_free()
 	if to == "back":
+		assert(menu_path.size() >= 2, "Can't go back!")
+		menu_resource = menu_path[menu_path.size()-2]
+		going_back = true
+		for continent in bird_menus.keys():
+			for bird in bird_menus[continent].keys():
+				if bird_menus[continent][bird] == menu_path.back():
+					to = continent
+	if to in [
+			"africa", "antarctica", "asia", "australia",
+			"europe", "north_america", "south_america"
+			]:
+		if not going_back:
+			menu_resource = menus[to]
+		bird_selection_menu = true
+	if to in menus:
+		menu_resource = menus[to]
+	for birds_from_continent in bird_menus.values():
+		if to in birds_from_continent:
+			menu_resource = birds_from_continent[to]
+			break
+	assert(menu_resource != null, "The scene you requested to transition to does not exist!")
+	
+	$Transition.play("transition")
+	yield(self, "adding_next_menu")
+	
+	$Menu.get_child(0).queue_free()
+	$Menu.add_child(menu_resource.instance())
+	if going_back:
 		menu_path.pop_back()
-		var new_menu: Control = menu_path.back().instance()
-		$Menu.add_child(new_menu)
 	else:
-		var new_menu: Control = menus[to].instance()
-		$Menu.add_child(new_menu)
-		menu_path.push_back(menus[to])
+		menu_path.push_back(menu_resource)
+	if bird_selection_menu:
+		EventBus.emit_send_bird_info(bird_icons[to], bird_menus[to])
 	
 	print(menu_path)
 	
@@ -80,7 +111,8 @@ func _on_SponsorMenu_button_pressed() -> void:
 
 
 # Scans res://birds and adds any valid birds to `bird_menus`
-func populate_bird_menus_dict():
+# Scans res://birds and adds any icon.png's in folders to `bird_icons`
+func populate_bird_menus_and_icons_dicts():
 	for continent in [
 			"africa", "antarctica", "asia", "australia",
 			"europe", "north_america", "south_america"
@@ -91,6 +123,7 @@ func populate_bird_menus_dict():
 		continent_directory.open("res://birds/" + continent)
 		continent_directory.list_dir_begin(true)
 		bird_menus[continent] = {}
+		bird_icons[continent] = {}
 		
 		# Scan res://birds/continent/* for valid bird folders
 		# If there is one, add it to the dictionary
@@ -105,13 +138,17 @@ func populate_bird_menus_dict():
 			bird_directory.open("res://birds/" + continent + "/" + folder)
 			bird_directory.list_dir_begin(true)
 			
-			# Scan res://birds/continent/bird_directory/* for any scene file
+			# Scan res://birds/continent/bird_directory/* for any scene or texture file
 			var scene: String
+			var texture: String
 			while true:
 				var file := bird_directory.get_next()
 				if file == "": break
+				if file.begins_with("icon") and file.ends_with(".import"):
+					texture = file.trim_suffix(".import")
 				if file.ends_with(".tscn") or file.ends_with(".scn"):
 					scene = file
+				if scene and texture:
 					break
 			bird_directory.list_dir_end()
 			if not scene:
@@ -121,6 +158,30 @@ func populate_bird_menus_dict():
 			bird_menus[continent][folder] = load(
 				"res://birds/" + continent + "/" + folder + "/" + scene
 			)
+			bird_icons[continent][folder] = load(
+				"res://birds/" + continent + "/" + folder + "/" + texture
+				if texture else "res://icon.png"
+			)
 		
 		continent_directory.list_dir_end()
-#	OS.alert("Bird menus: " + str(bird_menus.values()))
+	
+	OS.alert("Bird menus: " + str(bird_menus.values()))
+	OS.alert("Bird menus: " + str(bird_icons.values()))
+#	OS.alert("Bird menus: " + str(dir_contents("res://birds/australia/grasskeets")))
+
+
+func dir_contents(path):
+	var output := ""
+	var dir = Directory.new()
+	if dir.open(path) == OK:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if dir.current_is_dir():
+				output += "Found directory: " + file_name + "\n"
+			else:
+				output += "Found file: " + file_name + "\n"
+			file_name = dir.get_next()
+	else:
+		output += "An error occurred when trying to access the path.\n"
+	return output

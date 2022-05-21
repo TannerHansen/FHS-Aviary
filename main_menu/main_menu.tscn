@@ -21,8 +21,8 @@ buttons = [ NodePath("SafeMargin/VBoxContainer/Buttons/Control/BirdButton"), Nod
 [node name="SafeMargin" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 496.0
-margin_bottom = -167.0
+margin_top = 547.0
+margin_bottom = -185.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SafeMargin"]
 anchor_right = 1.0
@@ -61,15 +61,15 @@ align = 1
 [node name="Pheonix" type="TextureRect" parent="SafeMargin/VBoxContainer"]
 margin_top = 254.0
 margin_right = 1516.0
-margin_bottom = 1061.0
+margin_bottom = 992.0
 size_flags_vertical = 3
 texture = ExtResource( 4 )
 stretch_mode = 6
 
 [node name="Buttons" type="Control" parent="SafeMargin/VBoxContainer"]
-margin_top = 1065.0
+margin_top = 996.0
 margin_right = 1516.0
-margin_bottom = 1365.0
+margin_bottom = 1296.0
 rect_min_size = Vector2( 0, 300 )
 
 [node name="Control" type="Control" parent="SafeMargin/VBoxContainer/Buttons"]

@@ -1,10 +1,42 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://main_menu/orange_triangle_down.png" type="Texture" id=1]
 [ext_resource path="res://main_menu/orange_triangle_up.png" type="Texture" id=2]
+[ext_resource path="res://main_menu/purple_feather_texture.jpg" type="Texture" id=3]
 [ext_resource path="res://main_menu/blue_wedge.png" type="Texture" id=4]
-[ext_resource path="res://main_menu/feather_texture_inverted.png" type="Texture" id=5]
+[ext_resource path="res://sponsors/sponsor_banner.gd" type="Script" id=5]
 [ext_resource path="res://sponsors/sponsor_menu.gd" type="Script" id=6]
+[ext_resource path="res://main_menu/bird_background.png" type="Texture" id=7]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform sampler2D feather_texture;
+uniform float scroll_speed: hint_range(-0.15, 0.15) = 0.03;
+uniform float mix_percentage: hint_range(0, 1) = 0.9;
+uniform float texture_pixel_height: hint_range(0, 1) = 1500.0;
+
+void fragment() {
+	COLOR = texture(TEXTURE, UV);
+	float scale = (SCREEN_PIXEL_SIZE.y / SCREEN_PIXEL_SIZE.x)*1.5;
+//	float y = (1./ SCREEN_PIXEL_SIZE.y) / 150.;
+	vec4 ft = texture(
+		feather_texture,
+		vec2(
+			mod(TIME*scroll_speed + UV.x*scale/2., 1.),
+			mod(UV.y/2., 1.)
+		)
+	);
+	COLOR.rgb = mix(ft.rgb, COLOR.rgb, mix_percentage);
+	
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/scroll_speed = 0.03
+shader_param/mix_percentage = 0.9
+shader_param/texture_pixel_height = 1500.0
+shader_param/feather_texture = ExtResource( 3 )
 
 [node name="SponsorMenu" type="Control"]
 anchor_right = 1.0
@@ -31,48 +63,54 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="Helper/Background"]
-modulate = Color( 1, 1, 1, 0.0862745 )
+modulate = Color( 1, 1, 1, 0.0509804 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource( 5 )
+texture = ExtResource( 7 )
 expand = true
 stretch_mode = 7
 
 [node name="OrangeTriangleDown" type="TextureRect" parent="Helper"]
 anchor_right = 1.0
-margin_top = 144.0
-margin_bottom = 277.0
+margin_top = 211.0
+margin_bottom = 547.0
 texture = ExtResource( 1 )
-expand = true
-
-[node name="SponsorBanner" type="TextureRect" parent="Helper"]
-anchor_right = 1.0
-margin_bottom = 233.0
-texture = ExtResource( 4 )
 expand = true
 
 [node name="OrangeTriangleUp" type="TextureRect" parent="Helper"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -64.0
+margin_top = -185.0
 texture = ExtResource( 2 )
 expand = true
+
+[node name="SponsorBanner" type="TextureRect" parent="Helper"]
+material = SubResource( 2 )
+anchor_right = 1.0
+margin_bottom = 428.0
+texture = ExtResource( 4 )
+expand = true
+
+[node name="SponsorScroll" type="Container" parent="Helper/SponsorBanner"]
+anchor_right = 1.0
+anchor_bottom = 0.652
+margin_top = 10.0
+margin_bottom = -9.056
+script = ExtResource( 5 )
+spacing = 100.0
 
 [node name="SafeMargin" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 277.0
-margin_bottom = -64.0
-__meta__ = {
-"_edit_lock_": true
-}
+margin_top = 547.0
+margin_bottom = -185.0
 
 [node name="BackButton" type="Button" parent="SafeMargin"]
-margin_left = 11.0
-margin_top = -65.0
-margin_right = 127.0
-margin_bottom = -9.0
+margin_left = 40.0
+margin_top = -159.0
+margin_right = 351.0
+margin_bottom = -11.0
 text = "Back"
 
 [connection signal="pressed" from="SafeMargin/BackButton" to="." method="_on_BackButton_pressed"]

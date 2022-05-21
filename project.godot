@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "BaseMenu",
 "language": "GDScript",
 "path": "res://base_menu.gd"
+}, {
+"base": "GridContainer",
+"class": "SquareGridContainer",
+"language": "GDScript",
+"path": "res://common/square_grid_container.gd"
 } ]
 _global_script_class_icons={
-"BaseMenu": ""
+"BaseMenu": "",
+"SquareGridContainer": ""
 }
 
 [application]
